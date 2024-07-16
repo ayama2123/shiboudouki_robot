@@ -98,16 +98,16 @@ if st.session_state.step == 0:
 # 求人情報の入力
 if st.session_state.step >= 1:
     st.subheader(f"求人情報を入力してください {character_tone[st.session_state.character]}")
-    input_method = st.selectbox("入力方法を選択してください", ["テキスト", "画像", "PDF", "URL"])
+    input_method = st.selectbox("入力方法を選択してください", ["テキスト","PDF", "URL"])
     
     if input_method == "テキスト":
         st.session_state.job_info = st.text_area("求人情報の詳細をここに入力してください")
     
-    elif input_method == "画像":
-        image_file = st.file_uploader("画像ファイルをアップロードしてください", type=["png", "jpg", "jpeg"])
-        if image_file:
-            st.session_state.job_info = read_image(image_file)
-            st.write(st.session_state.job_info)
+#    elif input_method == "画像":
+#        image_file = st.file_uploader("画像ファイルをアップロードしてください", type=["png", "jpg", "jpeg"])
+#        if image_file:
+#            st.session_state.job_info = read_image(image_file)
+#            st.write(st.session_state.job_info)
     
     elif input_method == "PDF":
         pdf_file = st.file_uploader("PDFファイルをアップロードしてください", type=["pdf"])
