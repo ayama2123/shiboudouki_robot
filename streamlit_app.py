@@ -209,5 +209,5 @@ if st.session_state.step >= 5:
             st.text_input("送信先のメールアドレスを入力してください")
             if st.button("送信"):
                 st.success("メール送信機能はまだ実装されていません。")
-    else:
+
         st.write("お手伝いはここまでです。先生や周りの大人に確認してみてください。")
