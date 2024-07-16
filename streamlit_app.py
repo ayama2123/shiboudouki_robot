@@ -180,7 +180,7 @@ if st.session_state.step >= 5:
 
     # 次の行動の選択肢
     st.subheader("次の行動を選択してください")
-    next_action = st.radio("選択肢", ["文章を直したい", "満足した"])
+    next_action = st.radio("選択肢", ["文章を直したい"])
 
     # 作業9: 文章の修正
     if next_action == "文章を直したい":
@@ -200,16 +200,16 @@ if st.session_state.step >= 5:
             points = extract_points(updated_motivation)
             st.subheader("志望動機のポイント")
             st.write(points)
-    else:
-        st.subheader("生成された志望動機を保存または送信しますか？")
-        if st.button("テキストファイルとして保存"):
-            with open("motivation.txt", "w") as file:
-                file.write(st.session_state.motivation)
-            st.success("志望動機がmotivation.txtとして保存されました。")
+#    else:
+#        st.subheader("生成された志望動機を保存または送信しますか？")
+#        if st.button("テキストファイルとして保存"):
+#            with open("motivation.txt", "w") as file:
+#                file.write(st.session_state.motivation)
+#            st.success("志望動機がmotivation.txtとして保存されました。")
         
-        if st.button("メールで送信"):
-            st.text_input("送信先のメールアドレスを入力してください")
-            if st.button("送信"):
-                st.success("メール送信機能はまだ実装されていません。")
+#        if st.button("メールで送信"):
+#            st.text_input("送信先のメールアドレスを入力してください")
+#            if st.button("送信"):
+#                st.success("メール送信機能はまだ実装されていません。")
 
         st.write("お手伝いはここまでです。先生や周りの大人に確認してみてください。")
