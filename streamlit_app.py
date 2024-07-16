@@ -11,19 +11,19 @@ from bs4 import BeautifulSoup
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # キャラクターの選択肢と口調
-#characters = {
-#    "普通": "丁寧な口調",
-#    "やさしく寄り添い": "優しく寄り添う口調",
-#    "ギャル": "ギャルのような口調",
-#    "関西弁": "関西弁の口調"
-#}
+characters = {
+    "普通": "丁寧な口調",
+    "やさしく寄り添い": "優しく寄り添う口調",
+    "ギャル": "ギャルのような口調",
+    "関西弁": "関西弁の口調"
+}
 
-#character_tone = {
-#    "普通": "丁寧に",
-#    "やさしく寄り添い": "優しく寄り添って",
-#    "ギャル": "ギャルっぽく",
-#    "関西弁": "関西弁で"
-#}
+character_tone = {
+    "普通": "丁寧に",
+    "やさしく寄り添い": "優しく寄り添って",
+    "ギャル": "ギャルっぽく",
+    "関西弁": "関西弁で"
+}
 
 def generate_motivation(job_info, selected_interests, additional_interests, club_activities, other_achievements, correction=None):
     prompt = f"""
@@ -80,7 +80,7 @@ st.title("志望動機たたき台作成ロボ")
 # セッションステートの初期化
 if 'step' not in st.session_state:
     st.session_state.step = 0
-#    st.session_state.character = ""
+    st.session_state.character = ""
     st.session_state.job_info = ""
     st.session_state.interests = []
     st.session_state.additional_interests = []
@@ -95,24 +95,24 @@ def next_step():
 def prev_step():
     st.session_state.step -= 1
 
-#if st.session_state.step == 0:
-#    st.subheader("キャラクターを選択してください")
-#    st.session_state.character = st.selectbox("キャラクター", list(characters.keys()))
-#    if st.button("次へ"):
-#        next_step()
+if st.session_state.step == 0:
+    st.subheader("キャラクターを選択してください")
+    st.session_state.character = st.selectbox("キャラクター", list(characters.keys()))
+    if st.button("次へ"):
+        next_step()
 
-elif st.session_state.step == 0:
-    st.subheader(f"求人情報を入力してください")
-    input_method = st.selectbox("入力方法を選択してください", ["テキスト", "PDF", "URL"])
+elif st.session_state.step == 1:
+    st.subheader(f"求人情報を入力してください {character_tone[st.session_state.character]}")
+    input_method = st.selectbox("入力方法を選択してください", ["テキスト", "画像", "PDF", "URL"])
     
     if input_method == "テキスト":
         st.session_state.job_info = st.text_area("求人情報の詳細をここに入力してください")
     
-#    elif input_method == "画像":
-#        image_file = st.file_uploader("画像ファイルをアップロードしてください", type=["png", "jpg", "jpeg"])
-#        if image_file:
-#            st.session_state.job_info = read_image(image_file)
-#            st.write(st.session_state.job_info)
+    elif input_method == "画像":
+        image_file = st.file_uploader("画像ファイルをアップロードしてください", type=["png", "jpg", "jpeg"])
+        if image_file:
+            st.session_state.job_info = read_image(image_file)
+            st.write(st.session_state.job_info)
     
     elif input_method == "PDF":
         pdf_file = st.file_uploader("PDFファイルをアップロードしてください", type=["pdf"])
@@ -126,48 +126,67 @@ elif st.session_state.step == 0:
             st.session_state.job_info = read_url(url)
             st.write(st.session_state.job_info)
     
-    if st.button("次へ"):
-        next_step()
-    if st.button("前へ"):
-        prev_step()
-
-elif st.session_state.step == 1:
-    st.subheader(f"会社のどんなところに興味を持ちましたか？")
-    st.session_state.interests = st.multiselect("複数選択してください", ["給料が良い", "会社の場所が良い", "自分がしたい仕事", "得意なことが活かせそうだ"])
-    if st.button("次へ"):
-        next_step()
-    if st.button("前へ"):
-        prev_step()
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("前へ"):
+            prev_step()
+    with col2:
+        if st.button("次へ"):
+            next_step()
 
 elif st.session_state.step == 2:
-    st.subheader(f"他にも魅力に感じることがありますか？")
+    st.subheader(f"会社のどんなところに興味を持ちましたか？ {character_tone[st.session_state.character]}")
+    st.session_state.interests = st.multiselect("複数選択してください", ["給料が良い", "会社の場所が良い", "自分がしたい仕事", "得意なことが活かせそうだ"])
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("前へ"):
+            prev_step()
+    with col2:
+        if st.button("次へ"):
+            next_step()
+
+elif st.session_state.step == 3:
+    st.subheader(f"他にも魅力に感じることがありますか？ {character_tone[st.session_state.character]}")
     st.session_state.additional_interests = st.multiselect("複数選択してください", ["先生に勧められた", "職場見学に行って良いなと思った", "説明会に参加して良さそうだった", "先輩が働いている", "その他"])
     if "その他" in st.session_state.additional_interests:
         st.session_state.other_interests = st.text_input("どんなところに興味がありますか？")
-    if st.button("次へ"):
-        next_step()
-    if st.button("前へ"):
-        prev_step()
-
-elif st.session_state.step == 3:
-    st.subheader(f"部活や習い事はしていますか？")
-    st.session_state.club_activities = st.text_input("している場合、どんなことをしているか教えてください（していない場合はしていないと入力してください）")
-    if st.button("次へ"):
-        next_step()
-    if st.button("前へ"):
-        prev_step()
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("前へ"):
+            prev_step()
+    with col2:
+        if st.button("次へ"):
+            next_step()
 
 elif st.session_state.step == 4:
-    st.subheader(f"勉強やアルバイト、資格など頑張ったことがありますか？")
-    st.session_state.other_achievements = st.text_input("頑張ったことを教えてください（思いつかない場合はそれでも良いと入力してください）")
-    if st.button("次へ"):
-        next_step()
-    if st.button("前へ"):
-        prev_step()
+    st.subheader(f"部活や習い事はしていますか？ {character_tone[st.session_state.character]}")
+    st.session_state.club_activities = st.text_input("している場合、どんなことをしているか教えてください（していない場合はしていないと入力してください）")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("前へ"):
+            prev_step()
+    with col2:
+        if st.button("次へ"):
+            next_step()
 
 elif st.session_state.step == 5:
+    st.subheader(f"勉強やアルバイト、資格など頑張ったことがありますか？ {character_tone[st.session_state.character]}")
+    st.session_state.other_achievements = st.text_input("頑張ったことを教えてください（思いつかない場合はそれでも良いと入力してください）")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("前へ"):
+            prev_step()
+    with col2:
+        if st.button("次へ"):
+            next_step()
+
+elif st.session_state.step == 6:
     motivation = generate_motivation(
-#        st.session_state.character,
+        #st.session_state.character,
         st.session_state.job_info,
         st.session_state.interests,
         st.session_state.additional_interests,
@@ -191,7 +210,7 @@ elif st.session_state.step == 5:
         correction = st.text_input("どこが気になりましたか？")
         if st.button("修正する"):
             updated_motivation = generate_motivation(
-#                st.session_state.character,
+                #st.session_state.character,
                 st.session_state.job_info,
                 st.session_state.interests,
                 st.session_state.additional_interests,
@@ -206,5 +225,6 @@ elif st.session_state.step == 5:
             st.write(points)
     else:
         st.write("お手伝いはここまでです。先生や周りの大人に確認してみてください。")
+    
     if st.button("前へ"):
         prev_step()
