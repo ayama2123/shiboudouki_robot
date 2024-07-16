@@ -88,20 +88,15 @@ if 'step' not in st.session_state:
     st.session_state.club_activities = ""
     st.session_state.other_achievements = ""
 
-# ステップごとの処理
-def next_step():
-    st.session_state.step += 1
-
-def prev_step():
-    st.session_state.step -= 1
-
+# キャラクターの選択
 if st.session_state.step == 0:
     st.subheader("キャラクターを選択してください")
     st.session_state.character = st.selectbox("キャラクター", list(characters.keys()))
     if st.button("次へ"):
-        next_step()
+        st.session_state.step += 1
 
-elif st.session_state.step == 1:
+# 求人情報の入力
+if st.session_state.step >= 1:
     st.subheader(f"求人情報を入力してください {character_tone[st.session_state.character]}")
     input_method = st.selectbox("入力方法を選択してください", ["テキスト", "画像", "PDF", "URL"])
     
@@ -126,65 +121,45 @@ elif st.session_state.step == 1:
             st.session_state.job_info = read_url(url)
             st.write(st.session_state.job_info)
     
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("前へ"):
-            prev_step()
-    with col2:
-        if st.button("次へ"):
-            next_step()
+    if st.button("次へ", key="step1_next"):
+        st.session_state.step += 1
 
-elif st.session_state.step == 2:
+# 興味を持った点の選択
+if st.session_state.step >= 2:
     st.subheader(f"会社のどんなところに興味を持ちましたか？ {character_tone[st.session_state.character]}")
     st.session_state.interests = st.multiselect("複数選択してください", ["給料が良い", "会社の場所が良い", "自分がしたい仕事", "得意なことが活かせそうだ"])
     
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("前へ"):
-            prev_step()
-    with col2:
-        if st.button("次へ"):
-            next_step()
+    if st.button("次へ", key="step2_next"):
+        st.session_state.step += 1
 
-elif st.session_state.step == 3:
+# 他にも魅力に感じることの選択
+if st.session_state.step >= 3:
     st.subheader(f"他にも魅力に感じることがありますか？ {character_tone[st.session_state.character]}")
     st.session_state.additional_interests = st.multiselect("複数選択してください", ["先生に勧められた", "職場見学に行って良いなと思った", "説明会に参加して良さそうだった", "先輩が働いている", "その他"])
     if "その他" in st.session_state.additional_interests:
         st.session_state.other_interests = st.text_input("どんなところに興味がありますか？")
     
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("前へ"):
-            prev_step()
-    with col2:
-        if st.button("次へ"):
-            next_step()
+    if st.button("次へ", key="step3_next"):
+        st.session_state.step += 1
 
-elif st.session_state.step == 4:
+# 部活や習い事の入力
+if st.session_state.step >= 4:
     st.subheader(f"部活や習い事はしていますか？ {character_tone[st.session_state.character]}")
     st.session_state.club_activities = st.text_input("している場合、どんなことをしているか教えてください（していない場合はしていないと入力してください）")
     
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("前へ"):
-            prev_step()
-    with col2:
-        if st.button("次へ"):
-            next_step()
+    if st.button("次へ", key="step4_next"):
+        st.session_state.step += 1
 
-elif st.session_state.step == 5:
+# その他の頑張ったことの入力
+if st.session_state.step >= 5:
     st.subheader(f"勉強やアルバイト、資格など頑張ったことがありますか？ {character_tone[st.session_state.character]}")
     st.session_state.other_achievements = st.text_input("頑張ったことを教えてください（思いつかない場合はそれでも良いと入力してください）")
     
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("前へ"):
-            prev_step()
-    with col2:
-        if st.button("次へ"):
-            next_step()
+    if st.button("次へ", key="step5_next"):
+        st.session_state.step += 1
 
-elif st.session_state.step == 6:
+# 志望動機の生成
+if st.session_state.step >= 6:
     motivation = generate_motivation(
         #st.session_state.character,
         st.session_state.job_info,
@@ -225,6 +200,3 @@ elif st.session_state.step == 6:
             st.write(points)
     else:
         st.write("お手伝いはここまでです。先生や周りの大人に確認してみてください。")
-    
-    if st.button("前へ"):
-        prev_step()
