@@ -199,4 +199,15 @@ if st.session_state.step >= 5:
             st.subheader("志望動機のポイント")
             st.write(points)
     else:
+        st.subheader("生成された志望動機を保存または送信しますか？")
+        if st.button("テキストファイルとして保存"):
+            with open("motivation.txt", "w") as file:
+                file.write(st.session_state.motivation)
+            st.success("志望動機がmotivation.txtとして保存されました。")
+        
+        if st.button("メールで送信"):
+            st.text_input("送信先のメールアドレスを入力してください")
+            if st.button("送信"):
+                st.success("メール送信機能はまだ実装されていません。")
+    else:
         st.write("お手伝いはここまでです。先生や周りの大人に確認してみてください。")
