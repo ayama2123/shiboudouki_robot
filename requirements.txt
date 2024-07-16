@@ -5,4 +5,3 @@ pytesseract
 PyPDF2
 requests
 beautifulsoup4
-tesseract
