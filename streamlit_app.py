@@ -156,7 +156,7 @@ if st.session_state.step >= 4:
     st.subheader(f"勉強やアルバイト、資格など頑張ったことがありますか？")
     st.session_state.other_achievements = st.text_input("頑張ったことを教えてください（思いつかない場合はそれでも良いと入力してください）")
     
-    if st.button("次へ", key="step5_next"):
+    if st.button("志望動機を書き出す（少し時間がかかります）", key="step5_next"):
         st.session_state.step += 1
 
 # 志望動機の生成
@@ -212,4 +212,4 @@ if st.session_state.step >= 5:
 #            if st.button("送信"):
 #                st.success("メール送信機能はまだ実装されていません。")
 
-        st.write("お手伝いはここまでです。先生や周りの大人に確認してみてください。")
+#        st.write("お手伝いはここまでです。先生や周りの大人に確認してみてください。")
