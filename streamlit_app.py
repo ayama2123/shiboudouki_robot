@@ -80,7 +80,7 @@ st.title("志望動機たたき台作成ロボ")
 # セッションステートの初期化
 if 'step' not in st.session_state:
     st.session_state.step = 1
-    st.session_state.character = ""
+#    st.session_state.character = ""
     st.session_state.job_info = ""
     st.session_state.interests = []
     st.session_state.additional_interests = []
