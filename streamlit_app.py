@@ -11,19 +11,19 @@ from bs4 import BeautifulSoup
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # キャラクターの選択肢と口調
-characters = {
-    "普通": "丁寧な口調",
-    "やさしく寄り添い": "優しく寄り添う口調",
-    "ギャル": "ギャルのような口調",
-    "関西弁": "関西弁の口調"
-}
+#characters = {
+#    "普通": "丁寧な口調",
+#    "やさしく寄り添い": "優しく寄り添う口調",
+#    "ギャル": "ギャルのような口調",
+#    "関西弁": "関西弁の口調"
+#}
 
-character_tone = {
-    "普通": "丁寧に",
-    "やさしく寄り添い": "優しく寄り添って",
-    "ギャル": "ギャルっぽく",
-    "関西弁": "関西弁で"
-}
+#character_tone = {
+#    "普通": "丁寧に",
+#    "やさしく寄り添い": "優しく寄り添って",
+#    "ギャル": "ギャルっぽく",
+#    "関西弁": "関西弁で"
+#}
 
 def generate_motivation(job_info, selected_interests, additional_interests, club_activities, other_achievements, correction=None):
     prompt = f"""
@@ -62,25 +62,25 @@ def extract_points(motivation):
 #    image = Image.open(image_file)
 #    return pytesseract.image_to_string(image)
 
-def read_pdf(pdf_file):
-    pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-    text = ""
-    for page_num in range(pdf_reader.numPages):
-        page = pdf_reader.getPage(page_num)
-        text += page.extract_text()
-    return text
+#def read_pdf(pdf_file):
+#    pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+#    text = ""
+#    for page_num in range(pdf_reader.numPages):
+#        page = pdf_reader.getPage(page_num)
+#        text += page.extract_text()
+#    return text
 
-def read_url(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    return soup.get_text()
+#def read_url(url):
+#    response = requests.get(url)
+#    soup = BeautifulSoup(response.content, 'html.parser')
+#    return soup.get_text()
 
 st.title("志望動機たたき台作成ロボ")
 
 # セッションステートの初期化
 if 'step' not in st.session_state:
     st.session_state.step = 0
-    st.session_state.character = ""
+    #st.session_state.character = ""
     st.session_state.job_info = ""
     st.session_state.interests = []
     st.session_state.additional_interests = []
@@ -89,16 +89,16 @@ if 'step' not in st.session_state:
     st.session_state.other_achievements = ""
 
 # キャラクターの選択
-if st.session_state.step == 0:
-    st.subheader("キャラクターを選択してください")
-    st.session_state.character = st.selectbox("キャラクター", list(characters.keys()))
-    if st.button("次へ"):
-        st.session_state.step += 1
+#if st.session_state.step == 0:
+#    st.subheader("キャラクターを選択してください")
+#    st.session_state.character = st.selectbox("キャラクター", list(characters.keys()))
+#    if st.button("次へ"):
+#        st.session_state.step += 1
 
 # 求人情報の入力
-if st.session_state.step >= 1:
+if st.session_state.step >= 0:
     st.subheader(f"求人情報を入力してください {character_tone[st.session_state.character]}")
-    input_method = st.selectbox("入力方法を選択してください", ["テキスト","PDF", "URL"])
+    input_method = st.selectbox("入力方法を選択してください", ["テキスト"])
     
     if input_method == "テキスト":
         st.session_state.job_info = st.text_area("求人情報の詳細をここに入力してください")
@@ -109,23 +109,23 @@ if st.session_state.step >= 1:
 #            st.session_state.job_info = read_image(image_file)
 #            st.write(st.session_state.job_info)
     
-    elif input_method == "PDF":
-        pdf_file = st.file_uploader("PDFファイルをアップロードしてください", type=["pdf"])
-        if pdf_file:
-            st.session_state.job_info = read_pdf(pdf_file)
-            st.write(st.session_state.job_info)
+#    elif input_method == "PDF":
+#        pdf_file = st.file_uploader("PDFファイルをアップロードしてください", type=["pdf"])
+#        if pdf_file:
+#            st.session_state.job_info = read_pdf(pdf_file)
+#            st.write(st.session_state.job_info)
     
-    elif input_method == "URL":
-        url = st.text_input("URLを入力してください")
-        if url:
-            st.session_state.job_info = read_url(url)
-            st.write(st.session_state.job_info)
+#    elif input_method == "URL":
+#        url = st.text_input("URLを入力してください")
+#        if url:
+#            st.session_state.job_info = read_url(url)
+#            st.write(st.session_state.job_info)
     
     if st.button("次へ", key="step1_next"):
         st.session_state.step += 1
 
 # 興味を持った点の選択
-if st.session_state.step >= 2:
+if st.session_state.step >= 1:
     st.subheader(f"会社のどんなところに興味を持ちましたか？ {character_tone[st.session_state.character]}")
     st.session_state.interests = st.multiselect("複数選択してください", ["給料が良い", "会社の場所が良い", "自分がしたい仕事", "得意なことが活かせそうだ"])
     
@@ -133,7 +133,7 @@ if st.session_state.step >= 2:
         st.session_state.step += 1
 
 # 他にも魅力に感じることの選択
-if st.session_state.step >= 3:
+if st.session_state.step >= 2:
     st.subheader(f"他にも魅力に感じることがありますか？ {character_tone[st.session_state.character]}")
     st.session_state.additional_interests = st.multiselect("複数選択してください", ["先生に勧められた", "職場見学に行って良いなと思った", "説明会に参加して良さそうだった", "先輩が働いている", "その他"])
     if "その他" in st.session_state.additional_interests:
@@ -143,7 +143,7 @@ if st.session_state.step >= 3:
         st.session_state.step += 1
 
 # 部活や習い事の入力
-if st.session_state.step >= 4:
+if st.session_state.step >= 3:
     st.subheader(f"部活や習い事はしていますか？ {character_tone[st.session_state.character]}")
     st.session_state.club_activities = st.text_input("している場合、どんなことをしているか教えてください（していない場合はしていないと入力してください）")
     
@@ -151,7 +151,7 @@ if st.session_state.step >= 4:
         st.session_state.step += 1
 
 # その他の頑張ったことの入力
-if st.session_state.step >= 5:
+if st.session_state.step >= 4:
     st.subheader(f"勉強やアルバイト、資格など頑張ったことがありますか？ {character_tone[st.session_state.character]}")
     st.session_state.other_achievements = st.text_input("頑張ったことを教えてください（思いつかない場合はそれでも良いと入力してください）")
     
@@ -159,7 +159,7 @@ if st.session_state.step >= 5:
         st.session_state.step += 1
 
 # 志望動機の生成
-if st.session_state.step >= 6:
+if st.session_state.step >= 5:
     motivation = generate_motivation(
         #st.session_state.character,
         st.session_state.job_info,
