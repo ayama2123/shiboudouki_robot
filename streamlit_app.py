@@ -161,7 +161,8 @@ if st.session_state.step >= 4:
 
 # 志望動機の生成
 if st.session_state.step >= 5:
-    motivation = generate_motivation(
+    if st.session_state.motivation == "":
+        st.session_state.motivation = generate_motivation(
         #st.session_state.character,
         st.session_state.job_info,
         st.session_state.interests,
@@ -170,10 +171,10 @@ if st.session_state.step >= 5:
         st.session_state.other_achievements
     )
     st.subheader("生成された志望動機")
-    st.write(motivation)
+    st.write(st.session_state.motivation)
 
     # ポイントの表示
-    points = extract_points(motivation)
+    points = extract_points(st.session_state.motivation)
     st.subheader("志望動機のポイント")
     st.write(points)
 
