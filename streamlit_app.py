@@ -87,7 +87,8 @@ if 'step' not in st.session_state:
     st.session_state.other_interests = ""
     st.session_state.club_activities = ""
     st.session_state.other_achievements = ""
-
+    st.session_state.motivation = ""
+    
 # キャラクターの選択
 #if st.session_state.step == 0:
 #    st.subheader("キャラクターを選択してください")
