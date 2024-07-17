@@ -158,14 +158,22 @@ if st.session_state.step >= 0:
 if st.session_state.step >= 1:
     st.subheader(f"求人情報のポイント分析")
     st.write(st.session_state.analysis)
-    st.subheader(f"いかがでしょうか？ここからはあなたのことを教えてください。")
+    st.write(f"いかがですか？ここからはあなたのことを教えてください。")
     if st.button("次へ", key="step2_next"):
         st.session_state.step += 1
 
 # 興味を持った点の選択
 if st.session_state.step >= 2:
     st.subheader(f"会社のどんなところに興味を持ちましたか？")
-    st.session_state.interests = st.multiselect("複数選択してください", ["給料が良い", "会社の場所が良い", "自分がしたい仕事", "得意なことが活かせそうだ"])
+    interests_options = ["給料が良い", "会社の場所が良い", "自分がしたい仕事", "得意なことが活かせそうだ"]
+    
+    # チェックボックスの状態を保持する
+    interests = []
+    for option in interests_options:
+        if st.checkbox(option, value=option in st.session_state.interests):
+            interests.append(option)
+    
+    st.session_state.interests = interests
     
     if st.button("次へ", key="step3_next"):
         st.session_state.step += 1
