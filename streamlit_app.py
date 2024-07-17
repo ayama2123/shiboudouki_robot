@@ -167,7 +167,7 @@ if st.session_state.step >= 2:
     st.subheader(f"会社のどんなところに興味を持ちましたか？")
     st.session_state.interests = st.multiselect("複数選択してください", ["給料が良い", "会社の場所が良い", "自分がしたい仕事", "得意なことが活かせそうだ"])
     
-    if st.button("次へ", key="step2_next"):
+    if st.button("次へ", key="step3_next"):
         st.session_state.step += 1
 
 # 他にも魅力に感じることの選択
@@ -177,7 +177,7 @@ if st.session_state.step >= 3:
     if "その他" in st.session_state.additional_interests:
         st.session_state.other_interests = st.text_input("どんなところに興味がありますか？")
     
-    if st.button("次へ", key="step3_next"):
+    if st.button("次へ", key="step4_next"):
         st.session_state.step += 1
 
 # 部活や習い事の入力
@@ -185,7 +185,7 @@ if st.session_state.step >= 4:
     st.subheader(f"部活や習い事はしていますか？")
     st.session_state.club_activities = st.text_input("している場合、どんなことをしているか教えてください（していないと答えても大丈夫です）")
     
-    if st.button("次へ", key="step4_next"):
+    if st.button("次へ", key="step5_next"):
         st.session_state.step += 1
 
 # その他の頑張ったことの入力
@@ -193,7 +193,7 @@ if st.session_state.step >= 5:
     st.subheader(f"勉強やアルバイト、資格など頑張ったことがありますか？")
     st.session_state.other_achievements = st.text_input("頑張ったことを教えてください（思いつかないときはその通り答えてください）")
     
-    if st.button("志望動機を書き出す（少し時間がかかります）", key="step5_next"):
+    if st.button("志望動機を書き出す（少し時間がかかります）", key="step6_next"):
         st.session_state.step += 1
 
 # 志望動機の生成
