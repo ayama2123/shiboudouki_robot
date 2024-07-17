@@ -92,6 +92,7 @@ def analyze_job_info(job_info):
 #    return soup.get_text()
 
 st.title("志望動機たたき台作成ロボ")
+st.write("あなたが応募したい求人やあなたのことを教えてもらい、志望動機の下書きを作ります。")
 
 # セッションステートの初期化
 if 'step' not in st.session_state:
@@ -204,8 +205,9 @@ if st.session_state.step >= 6:
         st.session_state.additional_interests,
         st.session_state.club_activities,
         st.session_state.other_achievements
+        st.session_state.analysis = ""
     )
-    st.subheader("志望動機-たたき台")
+    st.subheader("こんな志望動機はどうでしょう？")
     st.write(st.session_state.motivation)
 
     # ポイントの表示
@@ -217,18 +219,17 @@ if st.session_state.step >= 6:
     st.subheader("次の行動を選択してください")
     next_action = st.radio("選択肢", ["文章を直したい"])
 
-
     # 作業9: 文章の修正
     if next_action == "文章を直したい":
         correction = st.text_input("どこが気になりましたか？")
         if st.button("修正する"):
             updated_motivation = generate_motivation(
-                #st.session_state.character,
                 st.session_state.job_info,
                 st.session_state.interests,
                 st.session_state.additional_interests,
                 st.session_state.club_activities,
                 st.session_state.other_achievements,
+                st.session_state.analysis = ""
                 correction
             )
             st.session_state.motivation = updated_motivation
@@ -237,7 +238,7 @@ if st.session_state.step >= 6:
             st.subheader("志望動機のポイント")
             st.write(points)
 
-        st.write("お手伝いはここまでです。先生や周りの大人にも見せて反応を聞いてみましょう。")
+        st.write("お手伝いはここまでです。内容にまちがいがないか、先生や周りの大人にも見せて反応を聞いてみましょう。")
 
         # 作業10: リセットとアンケート
         if st.button("最初からやり直す"):
@@ -245,5 +246,4 @@ if st.session_state.step >= 6:
                 del st.session_state[key]
             st.experimental_rerun()
 
-        if st.button("使ってみた感想を伝える"):
-            st.markdown("[こちらからフィードバックを送信してください](https://docs.google.com/forms/d/e/1FAIpQLSdbs3MORtMD2o6eA4eC2GvESXlezpoSisDEQ6SiC5ENWIG3UA/viewform?usp=sf_link")
+        st.write("[最短1分で終わるアンケートにご協力ください！](https://forms.gle/TJPW7RF6FiusqiAX7"):
