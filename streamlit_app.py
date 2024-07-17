@@ -28,14 +28,16 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def generate_motivation(job_info, selected_interests, additional_interests, club_activities, other_achievements, correction=None):
     prompt = f"""
     あなたは高校生の志望動機作成をサポートするGPTです。
-    次の情報を使って400字以内で志望動機を作成してください。
-    これは履歴書に記載する文章であるため書き言葉で丁寧な文章で出力します。
-    出力する文章には時給や給与に関することは絶対に書きません。
+    次の情報を使って志望動機を作成してください。
     - 求人情報: {job_info}
     - 興味を持った点: {selected_interests}
     - 他の魅力的な点: {additional_interests}
     - 部活や習い事: {club_activities}
     - その他の頑張ったこと: {other_achievements}
+    これは履歴書に記載する文章であるため書き言葉で丁寧な文章で出力します。
+    出力する文章には時給や給与に関することは絶対に書きません。
+    出力する前に文字数をカウントします。
+    カウントした文字数が400字以内ならそのまま出力します。400字以上ならばより簡潔な文章になるよう再出力します。これを文字数の条件が満たせるまで繰り返します。
     """
     if correction:
         prompt += f"\nユーザーからの修正依頼: {correction}"
