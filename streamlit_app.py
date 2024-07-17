@@ -29,6 +29,8 @@ def generate_motivation(job_info, selected_interests, additional_interests, club
     prompt = f"""
     あなたは高校生の志望動機作成をサポートするGPTです。
     次の情報を使って400字以内で志望動機を作成してください。
+    これは履歴書に記載する文章であるため書き言葉で丁寧な文章で出力します。
+    出力する文章には時給や給与に関することは絶対に書きません。
     - 求人情報: {job_info}
     - 興味を持った点: {selected_interests}
     - 他の魅力的な点: {additional_interests}
