@@ -238,3 +238,12 @@ if st.session_state.step >= 6:
             st.write(points)
 
         st.write("お手伝いはここまでです。先生や周りの大人にも見せて反応を聞いてみましょう。")
+
+        # 作業10: リセットとアンケート
+        if st.button("最初からやり直す"):
+            for key in st.session_state.keys():
+                del st.session_state[key]
+            st.experimental_rerun()
+
+        if st.button("使ってみた感想を伝える"):
+            st.markdown("[こちらからフィードバックを送信してください](https://docs.google.com/forms/d/e/1FAIpQLSdbs3MORtMD2o6eA4eC2GvESXlezpoSisDEQ6SiC5ENWIG3UA/viewform?usp=sf_link")
