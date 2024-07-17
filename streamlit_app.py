@@ -10,21 +10,6 @@ from bs4 import BeautifulSoup
 # OpenAI APIキーの設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-# キャラクターの選択肢と口調
-#characters = {
-#    "普通": "丁寧な口調",
-#    "やさしく寄り添い": "優しく寄り添う口調",
-#    "ギャル": "ギャルのような口調",
-#    "関西弁": "関西弁の口調"
-#}
-
-#character_tone = {
-#    "普通": "丁寧に",
-#    "やさしく寄り添い": "優しく寄り添って",
-#    "ギャル": "ギャルっぽく",
-#    "関西弁": "関西弁で"
-#}
-
 def generate_motivation(job_info, selected_interests, additional_interests, club_activities, other_achievements, correction=None):
     prompt = f"""
     あなたは高校生の志望動機作成をサポートするGPTです。
@@ -111,7 +96,6 @@ st.title("志望動機たたき台作成ロボ")
 # セッションステートの初期化
 if 'step' not in st.session_state:
     st.session_state.step = 0
-    #st.session_state.character = ""
     st.session_state.job_info = ""
     st.session_state.interests = []
     st.session_state.additional_interests = []
@@ -121,12 +105,6 @@ if 'step' not in st.session_state:
     st.session_state.motivation = ""
     st.session_state.analysis = ""
     
-# キャラクターの選択
-#if st.session_state.step == 0:
-#    st.subheader("キャラクターを選択してください")
-#    st.session_state.character = st.selectbox("キャラクター", list(characters.keys()))
-#    if st.button("次へ"):
-#        st.session_state.step += 1
 
 # 求人情報の入力
 if st.session_state.step >= 0:
@@ -221,14 +199,13 @@ if st.session_state.step >= 5:
 if st.session_state.step >= 6:
     if st.session_state.motivation == "":
         st.session_state.motivation = generate_motivation(
-        #st.session_state.character,
         st.session_state.job_info,
         st.session_state.interests,
         st.session_state.additional_interests,
         st.session_state.club_activities,
         st.session_state.other_achievements
     )
-    st.subheader("生成された志望動機")
+    st.subheader("志望動機-たたき台")
     st.write(st.session_state.motivation)
 
     # ポイントの表示
@@ -239,7 +216,7 @@ if st.session_state.step >= 6:
     # 次の行動の選択肢
     st.subheader("次の行動を選択してください")
     next_action = st.radio("選択肢", ["文章を直したい"])
-    st.write("納得のいく文章になったらスクショやコピーで保存しましょう。")
+
 
     # 作業9: 文章の修正
     if next_action == "文章を直したい":
@@ -259,16 +236,5 @@ if st.session_state.step >= 6:
             points = extract_points(updated_motivation)
             st.subheader("志望動機のポイント")
             st.write(points)
-#    else:
-#        st.subheader("生成された志望動機を保存または送信しますか？")
-#        if st.button("テキストファイルとして保存"):
-#            with open("motivation.txt", "w") as file:
-#                file.write(st.session_state.motivation)
-#            st.success("志望動機がmotivation.txtとして保存されました。")
-        
-#        if st.button("メールで送信"):
-#            st.text_input("送信先のメールアドレスを入力してください")
-#            if st.button("送信"):
-#                st.success("メール送信機能はまだ実装されていません。")
 
-#        st.write("お手伝いはここまでです。先生や周りの大人に確認してみてください。")
+        st.write("お手伝いはここまでです。先生や周りの大人にも見せて反応を聞いてみましょう。")
