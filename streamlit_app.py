@@ -43,7 +43,7 @@ def generate_motivation(job_info, selected_interests, additional_interests, club
         prompt += f"\nユーザーからの修正依頼: {correction}"
 
     response = openai.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": f"あなたは話すGPTです。"},
             {"role": "user", "content": prompt}
