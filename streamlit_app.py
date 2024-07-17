@@ -58,6 +58,33 @@ def extract_points(motivation):
     )
     return response.choices[0].message.content
 
+def analyze_job_info(job_info):
+    prompt = f"""
+    次の求人情報から良いところと注意したほうが良いことをそれぞれ3つずつ挙げてください。
+    
+    求人情報:
+    {job_info}
+    
+    良いところ:
+    1.
+    2.
+    3.
+    
+    注意したほうが良いこと:
+    1.
+    2.
+    3.
+    """
+    response = openai.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "あなたは求人情報の分析をするGPTです。"},
+            {"role": "user", "content": prompt}
+        ]
+    )
+    return response.choices[0].message.content
+
+
 #def read_image(image_file):
 #    image = Image.open(image_file)
 #    return pytesseract.image_to_string(image)
@@ -125,8 +152,16 @@ if st.session_state.step >= 0:
     if st.button("次へ", key="step1_next"):
         st.session_state.step += 1
 
-# 興味を持った点の選択
+# 求人情報の分析結果表示
 if st.session_state.step >= 1:
+    st.subheader(f"求人情報の分析結果")
+    st.write(st.session_state.analysis)
+    st.subheader(f"いかがでしょうか？ここからはあなたのことを教えてください。")
+    if st.button("次へ", key="step2_next"):
+        st.session_state.step += 1
+
+# 興味を持った点の選択
+if st.session_state.step >= 2:
     st.subheader(f"会社のどんなところに興味を持ちましたか？")
     st.session_state.interests = st.multiselect("複数選択してください", ["給料が良い", "会社の場所が良い", "自分がしたい仕事", "得意なことが活かせそうだ"])
     
@@ -134,7 +169,7 @@ if st.session_state.step >= 1:
         st.session_state.step += 1
 
 # 他にも魅力に感じることの選択
-if st.session_state.step >= 2:
+if st.session_state.step >= 3:
     st.subheader(f"他にも魅力に感じることがありますか？")
     st.session_state.additional_interests = st.multiselect("複数選択してください", ["先生に勧められた", "職場見学に行って良いなと思った", "説明会に参加して良さそうだった", "先輩が働いている", "その他"])
     if "その他" in st.session_state.additional_interests:
@@ -144,23 +179,23 @@ if st.session_state.step >= 2:
         st.session_state.step += 1
 
 # 部活や習い事の入力
-if st.session_state.step >= 3:
+if st.session_state.step >= 4:
     st.subheader(f"部活や習い事はしていますか？")
-    st.session_state.club_activities = st.text_input("している場合、どんなことをしているか教えてください（していない場合はしていないと入力してください）")
+    st.session_state.club_activities = st.text_input("している場合、どんなことをしているか教えてください（していないと答えても大丈夫です）")
     
     if st.button("次へ", key="step4_next"):
         st.session_state.step += 1
 
 # その他の頑張ったことの入力
-if st.session_state.step >= 4:
+if st.session_state.step >= 5:
     st.subheader(f"勉強やアルバイト、資格など頑張ったことがありますか？")
-    st.session_state.other_achievements = st.text_input("頑張ったことを教えてください（思いつかない場合はそれでも良いと入力してください）")
+    st.session_state.other_achievements = st.text_input("頑張ったことを教えてください（思いつかないときはその通り答えてください）")
     
     if st.button("志望動機を書き出す（少し時間がかかります）", key="step5_next"):
         st.session_state.step += 1
 
 # 志望動機の生成
-if st.session_state.step >= 5:
+if st.session_state.step >= 6:
     if st.session_state.motivation == "":
         st.session_state.motivation = generate_motivation(
         #st.session_state.character,
