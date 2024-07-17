@@ -238,12 +238,11 @@ if st.session_state.step >= 6:
             st.subheader("志望動機のポイント")
             st.write(points)
 
-        st.write("お手伝いはここまでです。内容にまちがいがないか、先生や周りの大人にも見せて反応を聞いてみましょう。")
-
         # 作業10: リセットとアンケート
         if st.button("最初からやり直す"):
             for key in st.session_state.keys():
                 del st.session_state[key]
             st.experimental_rerun()
-
+            
+        st.write("お手伝いはここまでです。内容にまちがいがないか、先生や周りの大人にも見せて反応を聞いてみましょう。")
         st.write("[最短1分で終わるアンケートにご協力ください！]( https://forms.gle/TJPW7RF6FiusqiAX7)")
