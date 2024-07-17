@@ -60,7 +60,7 @@ def extract_points(motivation):
 
 def analyze_job_info(job_info):
     prompt = f"""
-    次の求人情報から良いところと注意したほうが良いことをそれぞれ3つずつ挙げてください。
+    次の求人情報から良いところと注意したほうが良いことをそれぞれ3つずつ、簡潔に出力してください。
     
     求人情報:
     {job_info}
