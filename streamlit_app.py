@@ -204,8 +204,8 @@ if st.session_state.step >= 6:
         st.session_state.interests,
         st.session_state.additional_interests,
         st.session_state.club_activities,
-        st.session_state.other_achievements
-        st.session_state.analysis = ""
+        st.session_state.other_achievements,
+        st.session_state.analysis
     )
     st.subheader("こんな志望動機はどうでしょう？")
     st.write(st.session_state.motivation)
@@ -229,7 +229,7 @@ if st.session_state.step >= 6:
                 st.session_state.additional_interests,
                 st.session_state.club_activities,
                 st.session_state.other_achievements,
-                st.session_state.analysis = ""
+                st.session_state.analysis
                 correction
             )
             st.session_state.motivation = updated_motivation
