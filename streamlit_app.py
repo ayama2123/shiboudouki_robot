@@ -28,7 +28,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def generate_motivation(job_info, selected_interests, additional_interests, club_activities, other_achievements, correction=None):
     prompt = f"""
     あなたは高校生の志望動機作成をサポートするGPTです。
-    次の情報を使って志望動機を作成してください。
+    次の情報を使って400字以内で志望動機を作成してください。
     - 求人情報: {job_info}
     - 興味を持った点: {selected_interests}
     - 他の魅力的な点: {additional_interests}
