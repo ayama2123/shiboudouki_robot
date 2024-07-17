@@ -150,7 +150,7 @@ if st.session_state.step >= 0:
 #            st.session_state.job_info = read_url(url)
 #            st.write(st.session_state.job_info)
     
-    if st.button("次へ", key="step1_next"):
+    if st.button("ポイント分析を開始（少し時間がかかります）", key="step1_next"):
         st.session_state.analysis = analyze_job_info(st.session_state.job_info)
         st.session_state.step += 1
 
