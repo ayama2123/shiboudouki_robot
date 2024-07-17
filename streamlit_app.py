@@ -115,6 +115,7 @@ if 'step' not in st.session_state:
     st.session_state.club_activities = ""
     st.session_state.other_achievements = ""
     st.session_state.motivation = ""
+    st.session_state.analysis = ""
     
 # キャラクターの選択
 #if st.session_state.step == 0:
@@ -150,11 +151,12 @@ if st.session_state.step >= 0:
 #            st.write(st.session_state.job_info)
     
     if st.button("次へ", key="step1_next"):
+        st.session_state.analysis = analyze_job_info(st.session_state.job_info)
         st.session_state.step += 1
 
 # 求人情報の分析結果表示
 if st.session_state.step >= 1:
-    st.subheader(f"求人情報の分析結果")
+    st.subheader(f"求人情報のポイント分析")
     st.write(st.session_state.analysis)
     st.subheader(f"いかがでしょうか？ここからはあなたのことを教えてください。")
     if st.button("次へ", key="step2_next"):
