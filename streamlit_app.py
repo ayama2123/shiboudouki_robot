@@ -246,4 +246,4 @@ if st.session_state.step >= 6:
                 del st.session_state[key]
             st.experimental_rerun()
 
-        st.write("[最短1分で終わるアンケートにご協力ください！]( https://forms.gle/TJPW7RF6FiusqiAX7 )":
+        st.write("[最短1分で終わるアンケートにご協力ください！]( https://forms.gle/TJPW7RF6FiusqiAX7)")
