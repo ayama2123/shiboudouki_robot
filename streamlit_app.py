@@ -237,6 +237,7 @@ if st.session_state.step >= 6:
     # 次の行動の選択肢
     st.subheader("次の行動を選択してください")
     next_action = st.radio("選択肢", ["文章を直したい"])
+    st.write("納得のいく文章になったらスクショやコピーで保存しましょう。")
 
     # 作業9: 文章の修正
     if next_action == "文章を直したい":
