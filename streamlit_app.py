@@ -183,7 +183,16 @@ if st.session_state.step >= 2:
 # 他にも魅力に感じることの選択
 if st.session_state.step >= 3:
     st.subheader(f"他にも魅力に感じることがありますか？")
-    st.session_state.additional_interests = st.multiselect("複数選択してください", ["先生に勧められた", "職場見学に行って良いなと思った", "説明会に参加して良さそうだった", "先輩が働いている", "その他"])
+    additional_interests_options = ["先生に勧められた", "職場見学に行って良いなと思った", "説明会に参加して良さそうだった", "先輩が働いている", "その他"]
+
+    # チェックボックスの状態を保持する
+    additional_interests = []
+    for option in additional_interests_options:
+        if st.checkbox(option, value=option in st.session_state.additional_interests):
+            additional_interests.append(option)
+    
+    st.session_state.additional_interests = additional_interests
+    
     if "その他" in st.session_state.additional_interests:
         st.session_state.other_interests = st.text_input("どんなところに興味がありますか？")
     
