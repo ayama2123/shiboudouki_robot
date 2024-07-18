@@ -28,7 +28,7 @@ def generate_motivation(job_info, selected_interests, additional_interests, club
         prompt += f"\nユーザーからの修正依頼: {correction}"
 
     response = openai.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": f"あなたは話すGPTです。"},
             {"role": "user", "content": prompt}
@@ -39,7 +39,7 @@ def generate_motivation(job_info, selected_interests, additional_interests, club
 def extract_points(motivation):
     prompt = f"次の志望動機から重要なポイントを3つ箇条書きで挙げてください。\n\n{motivation}"
     response = openai.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "あなたは文章の要点を抽出するGPTです。"},
             {"role": "user", "content": prompt}
@@ -65,7 +65,7 @@ def analyze_job_info(job_info):
     3.
     """
     response = openai.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "あなたは求人情報の分析をするGPTです。"},
             {"role": "user", "content": prompt}
